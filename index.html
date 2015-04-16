@@ -20,24 +20,24 @@
               <label>Search:&nbsp;&nbsp;</label>
               <input id='searchId' data-bind='textInput: searchPattern, event: { keyup: searchLocations}' />
               <p id='locationsHeader'>Key Locations:</p>
-              <ul id='locationsListId'</ul> 
+              <ul id='locationsListId'</ul>
               <div data-bind='foreach: filteredLocationsList'>
                  <a href='#'  data-bind='text: place, event: { click: $parent.displayLocationInfoWindow, mouseover: $parent.displayLocationTitle }'></a><br>
               </div>
-            </div> 
-          </div>        
+            </div>
+          </div>
 
           <!-- Bootstrap col 2 spanning 75% of row -->
           <div id='mapSide' class='col-md-9'>
-            <div id='map-canvas'></div>    
+            <div id='map-canvas'></div>
           </div>
 
       </div>
-    </div> 
-  
+    </div>
+
 
     <script async src='js/libs/knockout-3.3.0.js'></script>
-    <script async src='js/libs/jquery.min.js'></script> 
+    <script async src='js/libs/jquery.min.js'></script>
     <script async src='js/app.min.js'></script>
   </body>
 </html>

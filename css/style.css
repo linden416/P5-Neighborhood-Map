@@ -10,7 +10,7 @@ html, body, #map-canvas {
 	width: 100%;
 	padding: 10px;
 	background-color: white;
-} 
+}
 
 #locationsHeader {
 	height: 40px;
@@ -27,7 +27,7 @@ html, body, #map-canvas {
 	list-style-type: none;
 	margin: 0px;
 	padding: 10px;
-}      
+}
 
 #flickrImg {
 		height: 200px;

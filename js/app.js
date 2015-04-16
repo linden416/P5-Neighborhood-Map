@@ -68,7 +68,7 @@ var wikiHash = {};
 var flickrHash = {};
 var locationHash = {};
 
-//Google objects supporting map, markers, and infowindows 
+//Google objects supporting map, markers, and infowindows
 var map = {};
 var infowindow = {};
 
@@ -91,15 +91,15 @@ var ViewModel = function() {
 		console.log(clickedLocation.place());
     	//Produce the html markup for the InfoWindow to display
     	//information about the Location as found from Wikipedia and Flickr
-    	infowindow.setContent( buildInfoWindowContent( clickedLocation.place() ) ); 
-     	infowindow.open(map, markersHash[clickedLocation.place()]); 
+    	infowindow.setContent( buildInfoWindowContent( clickedLocation.place() ) );
+     	infowindow.open(map, markersHash[clickedLocation.place()]);
 	};
 	self.displayLocationTitle = function(clickedLocation) {
 		console.log(clickedLocation.place());
     	//Produce the html markup for the InfoWindow to display
     	//information about the Location as found from Wikipedia and Flickr
-    	infowindow.setContent( clickedLocation.place() ); 
-     	infowindow.open(map, markersHash[clickedLocation.place()]); 
+    	infowindow.setContent( clickedLocation.place() );
+     	infowindow.open(map, markersHash[clickedLocation.place()]);
 	};
 	
 	//-Search UI Events-------------------------------------------------
@@ -130,7 +130,7 @@ var ViewModel = function() {
 	//-Call Third Party APIs--------------------------------------------
 	getGoogleMap_n_Markers();	//Get Google Map for neighborhood and markers for each location
 	getFlickrPhotos();			//Get Flickr photos for each picture in location
-	getWikiInformation();		//Wiki each location 
+	getWikiInformation();		//Wiki each location
 
 	$('#searchId').focus(); 	//Set focus
 }
@@ -155,7 +155,7 @@ ko.applyBindings(new ViewModel());
 //Using the predefined LocationsList which identifies 10 locations,
 //Get the overall Google Map, Google Marker for each location, and 
 //call the Wikipedia and Flickr APIs to access information and photos
-//for each location. 
+//for each location.
 function getGoogleMap_n_Markers() {
 	console.log("getGoogleMap_n_Markers");
 	//Retreive the main map of the Atlanta 'neighborhood' from Google Maps API
@@ -170,9 +170,9 @@ function getGoogleMap_n_Markers() {
     infowindow = new google.maps.InfoWindow();
 	
 	//Assign a 'CloseClick' event to the InfoWindow
-	google.maps.event.addListener(infowindow, 'closeclick', function() {        
+	google.maps.event.addListener(infowindow, 'closeclick', function() {
 		//Recenter the map after closing the info window
-	  	map.setCenter(new google.maps.LatLng(Atlanta.latitude, Atlanta.longitude)); 
+	  	map.setCenter(new google.maps.LatLng(Atlanta.latitude, Atlanta.longitude));
 	  	map.setZoom(Atlanta.zoom);
 	});
 
@@ -225,8 +225,8 @@ function getGoogleMap_n_Markers() {
 	    google.maps.event.addListener(marker, 'click', function() {
 	    	//Produce the html markup for the InfoWindow to display
 	    	//information about the Location as found from Wikipedia and Flickr
-	    	infowindow.setContent( buildInfoWindowContent(markerName) ); 
-         	infowindow.open(map, marker); 
+	    	infowindow.setContent( buildInfoWindowContent(markerName) );
+         	infowindow.open(map, marker);
       	});
 
 	    //Assign a 'Click' event to the Marker which will display a brief location title in InfoWindow
@@ -249,16 +249,16 @@ function getFlickrPhotos(){
 	//Invoke Flicker API Method Galleries.getPhotos
 	var flickerGetPhotosURL = "https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos";
 	//Use students' api key, and Gallery Id
-	var parms = { 
-		api_key: '77b04d2ba00b81ecf907fb0c3c7498b0', 
-		gallery_id: '131654409-72157649533974933', 
+	var parms = {
+		api_key: '77b04d2ba00b81ecf907fb0c3c7498b0',
+		gallery_id: '131654409-72157649533974933',
 		format: 'json',
 		nojsoncallback: '1'
 	};
 	//Get all the meta information about the photos from the gallery
 	var jresult = $.getJSON(flickerGetPhotosURL, parms )
-  		.done(function(data) { 
-  			if (data.stat === "ok"){  
+  		.done(function(data) {
+  			if (data.stat === "ok"){
 	    		for(i=0; i < data.photos.total; i++){
 	    			var farmId = data.photos.photo[i].farm;
 	    			var serverId = data.photos.photo[i].server;
@@ -323,7 +323,7 @@ function getWikiInformation() {
 
 		//Asynchronous call to Wikipedia
 		$.ajax({
-		    url: 'http://en.wikipedia.org/w/api.php', 
+		    url: 'http://en.wikipedia.org/w/api.php',
 		    data: {
 		        action: 'opensearch',
 		        format: 'json',
@@ -345,11 +345,11 @@ function getWikiInformation() {
 
 				//Set back 'Fox Theatre' to original location place value (ie remove '(Atlanta)' suffix)
 				if (locName.indexOf('(Atlanta)') > 1) {
-					locName = locName.substring(0, locName.indexOf(' (Atlanta)') ); 
+					locName = locName.substring(0, locName.indexOf(' (Atlanta)') );
 				}
 
 				//Add to hash table
-				wikiHash[locName] = wikiLink; 
+				wikiHash[locName] = wikiLink;
 
 		        //Turn off the setTimeout timer, the request was successful
 		        clearTimeout(wikiRequestTimeout);

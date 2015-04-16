@@ -60,7 +60,7 @@ var Atlanta = {
 	latitude: 33.780423,
 	longitude: -84.3908896,
 	zoom: 14
-}
+};
 
 //Hash Tables with key equating to LocationList.place
 var markersHash = {};
@@ -125,7 +125,7 @@ var ViewModel = function() {
 				}
 			}
 		});
-	}
+	};
 
 	//-Call Third Party APIs--------------------------------------------
 	getGoogleMap_n_Markers();	//Get Google Map for neighborhood and markers for each location
@@ -133,14 +133,14 @@ var ViewModel = function() {
 	getWikiInformation();		//Wiki each location
 
 	$('#searchId').focus(); 	//Set focus
-}
+};
 
 //=Data Model Object==========================================================
 var Location = function(data) {
 	this.place = ko.observable(data.place);
 	this.PlaceId = ko.observable(data.PlaceId);
 	this.address = ko.observable(data.address);
-}
+};
 
 //============================================================================
 ko.applyBindings(new ViewModel());
@@ -178,7 +178,7 @@ function getGoogleMap_n_Markers() {
 
 	var service = new google.maps.places.PlacesService(map);
 
-	for(i=0; i < predefinedlocations.length; i++)
+	for(var i=0; i < predefinedlocations.length; i++)
 	{
 		//Create InfoWindow Content for each place
  		var markUp = "<h3>" + predefinedlocations[i].place + "</h3>";
@@ -219,24 +219,24 @@ function getGoogleMap_n_Markers() {
 	    	}
 	    	//Save marker to hashtable
         	markersHash[markerName] = marker;
-	    };
 	    
-	    //Assign a 'Click' event to the Marker which will display a complete detailed InfoWindow
-	    google.maps.event.addListener(marker, 'click', function() {
-	    	//Produce the html markup for the InfoWindow to display
-	    	//information about the Location as found from Wikipedia and Flickr
-	    	infowindow.setContent( buildInfoWindowContent(markerName) );
-         	infowindow.open(map, marker);
-      	});
+		    //Assign a 'Click' event to the Marker which will display a complete detailed InfoWindow
+		    google.maps.event.addListener(marker, 'click', function() {
+		    	//Produce the html markup for the InfoWindow to display
+		    	//information about the Location as found from Wikipedia and Flickr
+		    	infowindow.setContent( buildInfoWindowContent(markerName) );
+	         	infowindow.open(map, marker);
+	      	});
 
-	    //Assign a 'Click' event to the Marker which will display a brief location title in InfoWindow
-	    google.maps.event.addListener(marker, 'mouseover', function() {
-	    	//Just display the location name ONLY
-			infowindow.setContent(markerName);
-	    	infowindow.open(map, marker);
-      	});
+		    //Assign a 'Click' event to the Marker which will display a brief location title in InfoWindow
+		    google.maps.event.addListener(marker, 'mouseover', function() {
+		    	//Just display the location name ONLY
+				infowindow.setContent(markerName);
+		    	infowindow.open(map, marker);
+	      	});
 
-	};
+	    }
+	}
 }
 
 //=Flickr Search==============================================================
@@ -259,7 +259,7 @@ function getFlickrPhotos(){
 	var jresult = $.getJSON(flickerGetPhotosURL, parms )
   		.done(function(data) {
   			if (data.stat === "ok"){
-	    		for(i=0; i < data.photos.total; i++){
+	    		for(var i=0; i < data.photos.total; i++){
 	    			var farmId = data.photos.photo[i].farm;
 	    			var serverId = data.photos.photo[i].server;
 	    			var photoId = data.photos.photo[i].id;
@@ -274,7 +274,7 @@ function getFlickrPhotos(){
 	    			//comparing to each place. For each match, add the Flicker URL nestled
 	    			//in html markup to the Flicker hash table.
 	    			title = title.toLowerCase();
-					for(j=0; j < predefinedlocations.length; j++)
+					for(var j=0; j < predefinedlocations.length; j++)
 					{
 						var tempPlace = predefinedlocations[j].place;
 						tempPlace = tempPlace.toLowerCase();
@@ -310,7 +310,7 @@ function getWikiInformation() {
 	}, 8000); //Issue this statement after 8 seconds
 
 	//For every predefined location, search Wikipedia
-	for(i=0; i < predefinedlocations.length; i++)
+	for(var i=0; i < predefinedlocations.length; i++)
 	{
 		var searchLocationStr = predefinedlocations[i].place;
 

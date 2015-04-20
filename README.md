@@ -1,6 +1,8 @@
 # P5-Neighborhood-Map
 Project 5 Neighborhood Map / Front-End Web Developer Nanodegree
 
+4-20-2015 - Third Submission Date
+4-16-2015 - Second Submission Date
 4-16-2015 - First Submission Date
 
 Student
@@ -25,6 +27,20 @@ Summary Objective
 
 Note To Evaluator
 
+	4-20-2015
+	1.  Last evaluation indicated the UI wasn't working. I do not know exactly why. I have
+	been downloading my project from Github on several machines, and it works for both
+	Chrome and IE. What I did in this submission was created a status at the very bottom
+	of the page, and if any issue were to occur in AJAX calls to Google, Flickr, or
+	Wiki, it will be displayed at the bottom left corner of the window in red font. I
+	successfully tested this for both Flickr and Wiki.
+	2.  The logic for handling the searching in the Key Locations list was questioned by
+	reviewer. I re-examined the code and put in place a better process than prior submissions.
+	3.  The prior evaluation indicated that the page did not look great on smaller devices
+	and suggested using media queries. I added those to improve the smaller screen appearance.
+	4.  The application JavaScript file was run through JSHint site.
+
+	4-16-2015
 	I access the Flickr API to bring in a photo of each location that I am presenting
 	to you. I individually selected each photo and added to a personal 'Gallery'.
 	I call the Flicker API Galleries.GetPhotos method to get the neccessary meta

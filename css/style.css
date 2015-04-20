@@ -103,7 +103,7 @@ html, body {
 		height: 100px;
 	}
 	#contentInfo {
-		width: 100%;
+		width: auto;
 	}
 }
 
@@ -115,9 +115,6 @@ html, body {
 /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
  	#flickrImg {
 		height: 200px;
-	}
-	#contentInfo {
-		width: 400px;
 	}
 }
 
@@ -137,18 +134,12 @@ html, body {
   	#flickrImg {
 		height: 300px;
 	}
-	#contentInfo {
-		width: 600px;
-	}
 }
 
 @media (min-width:1281px) {
 /* hi-res laptops and desktops */
   	#flickrImg {
 		height: 400px;
-	}
-	#contentInfo {
-		width: 800px;
 	}
 }
 

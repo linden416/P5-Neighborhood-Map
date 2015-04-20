@@ -1,8 +1,22 @@
-html, body, #map-canvas {
+html, body {
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
 	display: flex;
+} 
+
+#DummyDivId {
+	max-width: 1024px; /* Default value manipulated by media query below */
+}
+
+#contentBody {
+	height: 97%;
+}
+
+#map-canvas {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
 } 
 
 #searchId {
@@ -21,7 +35,7 @@ html, body, #map-canvas {
 }
 
 #locationsListId {
-	height:300px;
+	height: auto;
 	background-color: #f5f5f5;
 	text-decoration: none;
 	list-style-type: none;
@@ -30,7 +44,7 @@ html, body, #map-canvas {
 }
 
 #flickrImg {
-		height: 200px;
+	height: 200px;
 }
 
 #contentInfo {
@@ -59,4 +73,89 @@ html, body, #map-canvas {
 
 #wikiSummary {
 	font-size: 12px;
+}
+
+#statusLine {
+	height: 20px;
+	font-size: 12px;
+	color: red;
+	padding: 0;
+}
+
+#locationId h3 {
+	font-size: 16px;
+}
+
+#locationId p {
+	font-size: 12px;
+}
+
+@media (min-width:320px) {
+/* smartphones, iPhone, portrait 480x320 phones */
+	#searchId {
+		height: 20px;
+	}
+	#locationsHeader {
+		height: 20px;
+		padding: 0;
+	}
+  	#flickrImg {
+		height: 100px;
+	}
+	#contentInfo {
+		width: 100%;
+	}
+}
+
+@media (min-width:481px) {
+/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+
+@media (min-width:641px) {
+/* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+ 	#flickrImg {
+		height: 200px;
+	}
+	#contentInfo {
+		width: 400px;
+	}
+}
+
+@media (min-width:992px) {
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+	#searchId {
+		height: 100%;
+	}
+	#locationsHeader {
+		height: 100%;
+		padding: 10px;
+	}
+}
+
+@media (min-width:1025px) {
+/* big landscape tablets, laptops, and desktops, iMac */
+  	#flickrImg {
+		height: 300px;
+	}
+	#contentInfo {
+		width: 600px;
+	}
+}
+
+@media (min-width:1281px) {
+/* hi-res laptops and desktops */
+  	#flickrImg {
+		height: 400px;
+	}
+	#contentInfo {
+		width: 800px;
+	}
+}
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+/* Mark the min width to a dummy DIV element attribute
+   the app.js script will read it to determine device size */
+	#DummyDivId {
+		max-width: 320px;
+	}
 }

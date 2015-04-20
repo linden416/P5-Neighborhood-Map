@@ -4,54 +4,64 @@
 //location in list. It's the equivalent to longitude and latitude.
 var predefinedlocations = [ 	
 	{
-		place: 'Piedmont Park',
-		PlaceId: 'ChIJlxti7TgE9YgRSjhV1kb_mbY',
-		address: '1342 Worchester Drive Northeast, Atlanta, GA 30306, United States'
-	},
-	{
-		place: 'Georgia Tech',
-		PlaceId: 'ChIJ40_D64oE9YgRD8XYOj7QKrU',
-		address: 'North Ave NW, Atlanta, GA 30332, United States'
-	},
-	{
-		place: 'High Museum of Art',
-		PlaceId: 'ChIJf8bUMEUE9YgR8nttKmmxaPc',
-		address: '1280 Peachtree Street Northeast, Atlanta, GA 30309, United States'
-	},
-	{
-		place: 'Georgia Aquarium',
-		PlaceId: 'ChIJGQT0RX4E9YgR3EqvqXZw1_4',
-		address: '225 Baker Street Northwest, Atlanta, GA 30313, United States'
-	},
-	{
-		place: 'Woodruff Arts Center',
-		PlaceId: 'ChIJf8bUMEUE9YgRI5s3hH594AY',
-		address: '1280 Peachtree Street Northeast, Atlanta, GA 30309, United States'
-	},
-	{
 		place: 'Atlantic Station',
 		PlaceId: 'ChIJVbS_XvcE9YgRBnYS_RrLgHg',
-		address: 'Atlantic Station, Atlanta, GA, USA'
+		address: 'Atlantic Station, Atlanta, GA, USA',
+		visibleStatus: true
 	},
 	{
 		place: 'CNN Center',
 		PlaceId: 'ChIJd_c_Y4AD9YgRHw-SJKG4z4k',
-		address: '190 Marietta Street Northwest, Atlanta, GA 30303, United States'
-	},
-	{
-		place: 'Georgia World Congress Center',
-		PlaceId: 'ChIJiadaA4AD9YgRd4ebM1r2cgA',
-		address: '285 Andrew Young International Blvd NW, Atlanta, GA 30303'
-	},
-	{
-		place: 'World of Coca-Cola',
-		PlaceId: 'ChIJ8yjI7H4E9YgRyacfAZqyAUQ',
-		address: '121 Baker St NW, Atlanta, GA 30313'
+		address: '190 Marietta Street Northwest, Atlanta, GA 30303, United States',
+		visibleStatus: true
 	},
 	{
 		place: 'Fox Theatre',
 		PlaceId: 'ChIJ28DQdm8E9YgRnsZ4YZ94nRo',
-		address: '660 Peachtree Street Northeast, Atlanta, GA 30308, United States'
+		address: '660 Peachtree Street Northeast, Atlanta, GA 30308, United States',
+		visibleStatus: true
+	},
+	{
+		place: 'Georgia Aquarium',
+		PlaceId: 'ChIJGQT0RX4E9YgR3EqvqXZw1_4',
+		address: '225 Baker Street Northwest, Atlanta, GA 30313, United States',
+		visibleStatus: true
+	},
+	{
+		place: 'Georgia Tech',
+		PlaceId: 'ChIJ40_D64oE9YgRD8XYOj7QKrU',
+		address: 'North Ave NW, Atlanta, GA 30332, United States',
+		visibleStatus: true
+	},
+	{
+		place: 'Georgia World Congress Center',
+		PlaceId: 'ChIJiadaA4AD9YgRd4ebM1r2cgA',
+		address: '285 Andrew Young International Blvd NW, Atlanta, GA 30303',
+		visibleStatus: true
+	},
+	{
+		place: 'High Museum of Art',
+		PlaceId: 'ChIJf8bUMEUE9YgR8nttKmmxaPc',
+		address: '1280 Peachtree Street Northeast, Atlanta, GA 30309, United States',
+		visibleStatus: true
+	},
+	{
+		place: 'Piedmont Park',
+		PlaceId: 'ChIJlxti7TgE9YgRSjhV1kb_mbY',
+		address: '1342 Worchester Drive Northeast, Atlanta, GA 30306, United States',
+		visibleStatus: true
+	},
+	{
+		place: 'Woodruff Arts Center',
+		PlaceId: 'ChIJf8bUMEUE9YgRI5s3hH594AY',
+		address: '1280 Peachtree Street Northeast, Atlanta, GA 30309, United States',
+		visibleStatus: true
+	},
+	{
+		place: 'World of Coca-Cola',
+		PlaceId: 'ChIJ8yjI7H4E9YgRyacfAZqyAUQ',
+		address: '121 Baker St NW, Atlanta, GA 30313',
+		visibleStatus: true
 	}
 ];
 
@@ -78,25 +88,24 @@ var ViewModel = function() {
 	
 	//Search Input UI
 	self.searchPattern = ko.observable();
-	//Key Locations List UI
-	self.filteredLocationsList = ko.observableArray([]);
 
-	//Load predefined neighborhood locations to filtered Location List
+	//Key Locations List UI
+	self.keyLocationsList = ko.observableArray([]);
+
+	//Load predefined neighborhood locations to Key Location List
 	predefinedlocations.forEach(function(location){
-		self.filteredLocationsList.push( new Location(location));
+		self.keyLocationsList.push( new Location(location));
 	});
 
-	//-Key Locations UI Events------------------------------------------
+	//-Key Locations Click and Mouseover Events-------------------------
 	self.displayLocationInfoWindow = function(clickedLocation) {
-		console.log(clickedLocation.place());
     	//Produce the html markup for the InfoWindow to display
     	//information about the Location as found from Wikipedia and Flickr
     	infowindow.setContent( buildInfoWindowContent( clickedLocation.place() ) );
      	infowindow.open(map, markersHash[clickedLocation.place()]);
 	};
 	self.displayLocationTitle = function(clickedLocation) {
-		console.log(clickedLocation.place());
-    	//Produce the html markup for the InfoWindow to display
+	   	//Produce the html markup for the InfoWindow to display
     	//information about the Location as found from Wikipedia and Flickr
     	infowindow.setContent( clickedLocation.place() );
      	infowindow.open(map, markersHash[clickedLocation.place()]);
@@ -104,33 +113,45 @@ var ViewModel = function() {
 	
 	//-Search UI Events-------------------------------------------------
 	self.searchLocations = function() {
-		if (self.searchPattern() === undefined){
+		if (self.searchPattern() === undefined) {
 			return;
 		}
-		self.filteredLocationsList.removeAll();
-		predefinedlocations.forEach( function(location){
-			if(self.searchPattern().length === 0){
-				self.filteredLocationsList.push(new Location(location));
-				markersHash[location.place].setVisible(true);
+
+		//Traverse the list of locations and match to search pattern
+		//Set the observablearray property 'visibleStatus' to true on 
+		//matches, false on mismatch
+		for (var i = 0, len = self.keyLocationsList().length; i < len; i++) {
+        	var location = self.keyLocationsList()[i];
+
+			if(self.searchPattern().length === 0) {		//Pattern matches location
+				location.visibleStatus(true);
+				markersHash[location.place()].setVisible(true);
 			}
 			else{
 				var lowcasePattern = self.searchPattern().toLowerCase();
-				var lowcasePlace = location.place.toLowerCase();
+				var lowcasePlace = location.place().toLowerCase();
 				if (lowcasePlace.indexOf(lowcasePattern) === 0) {
-					self.filteredLocationsList.push(new Location(location));
-					markersHash[location.place].setVisible(true);
+					location.visibleStatus(true);
+					markersHash[location.place()].setVisible(true);
 				}
 				else {
-					markersHash[location.place].setVisible(false);
+					location.visibleStatus(false);
+					markersHash[location.place()].setVisible(false);
 				}
 			}
-		});
+		}
 	};
 
-	//-Call Third Party APIs--------------------------------------------
-	getGoogleMap_n_Markers();	//Get Google Map for neighborhood and markers for each location
-	getFlickrPhotos();			//Get Flickr photos for each picture in location
-	getWikiInformation();		//Wiki each location
+	try {
+		//-Call Third Party APIs--------------------------------------------
+		getGoogleMap_n_Markers();	//Get Google Map for neighborhood and markers for each location
+		getFlickrPhotos();			//Get Flickr photos for each picture in location
+		getWikiInformation();		//Wiki each location
+	}
+	catch (e) {
+		console.log( "Exception processing APIs! " + e );
+		$('#statusLine').append("<span>Page exception occurred accessing APIs!&nbsp;&nbsp;</span>");
+	}
 
 	$('#searchId').focus(); 	//Set focus
 };
@@ -138,8 +159,7 @@ var ViewModel = function() {
 //=Data Model Object==========================================================
 var Location = function(data) {
 	this.place = ko.observable(data.place);
-	this.PlaceId = ko.observable(data.PlaceId);
-	this.address = ko.observable(data.address);
+	this.visibleStatus = ko.observable(data.visibleStatus);
 };
 
 //============================================================================
@@ -158,14 +178,18 @@ ko.applyBindings(new ViewModel());
 //for each location.
 function getGoogleMap_n_Markers() {
 	console.log("getGoogleMap_n_Markers");
+	var zoomLevel = Atlanta.zoom;
+
+	var maxWidth = $('#DummyDivId').css('max-width');
+	if (maxWidth === '320px') {
+		zoomLevel = 13; //Lower the zoom for small devices
+	}
+
 	//Retreive the main map of the Atlanta 'neighborhood' from Google Maps API
     map = new google.maps.Map(document.getElementById('map-canvas'), {
     	center: new google.maps.LatLng(Atlanta.latitude, Atlanta.longitude),
-    	zoom: Atlanta.zoom
+    	zoom: zoomLevel
 	});
-	var h = $(window).height(),
-    offsetTop = 10; // Calculate the top offset
-    $('#map-canvas').css('height', (h - offsetTop));
 
     infowindow = new google.maps.InfoWindow();
 	
@@ -173,7 +197,7 @@ function getGoogleMap_n_Markers() {
 	google.maps.event.addListener(infowindow, 'closeclick', function() {
 		//Recenter the map after closing the info window
 	  	map.setCenter(new google.maps.LatLng(Atlanta.latitude, Atlanta.longitude));
-	  	map.setZoom(Atlanta.zoom);
+	  	map.setZoom(zoomLevel);
 	});
 
 	var service = new google.maps.places.PlacesService(map);
@@ -181,8 +205,8 @@ function getGoogleMap_n_Markers() {
 	for(var i=0; i < predefinedlocations.length; i++)
 	{
 		//Create InfoWindow Content for each place
- 		var markUp = "<h3>" + predefinedlocations[i].place + "</h3>";
- 		markUp += "<p id='address'>" + predefinedlocations[i].address + "</p>";
+ 		var markUp = "<div id='locationId'><h3>" + predefinedlocations[i].place + "</h3>";
+ 		markUp += "<p id='address'>" + predefinedlocations[i].address + "</p></div>";
  		locationHash[predefinedlocations[i].place] = markUp;
 
 		var request = {
@@ -191,7 +215,7 @@ function getGoogleMap_n_Markers() {
 
 	  	//Call the Google Places API to get the Marker for each LocationList place
 	  	//This call is asynchronous defining the callback to manipulate response.
-		service.getDetails(request, getMarkerDetailsCallback);		
+		service.getDetails(request, getMarkerDetailsCallback);
 	}
 
 	//Google Places callback function
@@ -235,6 +259,10 @@ function getGoogleMap_n_Markers() {
 		    	infowindow.open(map, marker);
 	      	});
 
+	    }
+	    else{
+    		console.log( "Failed to access Google Place Marker!" );
+    		$('#statusLine').append("<span>Failed to access a Google Map Place Marker;&nbsp;&nbsp;</span>");
 	    }
 	}
 }
@@ -296,6 +324,7 @@ function getFlickrPhotos(){
   		})
   		.fail(function() {
     		console.log( "Failed to access flickr.galleries.getPhotos!" );
+    		$('#statusLine').append("<span>Page failed to access Flickr Services;&nbsp;&nbsp;</span>");
   		});	
 }
 
@@ -307,6 +336,7 @@ function getWikiInformation() {
 	//Establish a timeout for Wikipedia calls
 	var wikiRequestTimeout = setTimeout(function(){
     	console.log("Failed to access Wikipedia");
+   		$('#statusLine').append("<span>Page timed out accessing Wikipedia Services;&nbsp;&nbsp;</span>");
 	}, 8000); //Issue this statement after 8 seconds
 
 	//For every predefined location, search Wikipedia
@@ -340,7 +370,7 @@ function getWikiInformation() {
 	            var title = jsondata[1][0];
 	            var url = jsondata[3][0];
 	            var summary = jsondata[2][0];
-		        var wikiLink = "<div id='wikiLink'><hr><p id='wikiTagname'>Wikipedia</p>";
+		        var wikiLink = "<div id='wikiId'><hr><p id='wikiTagname'>Wikipedia</p>";
 		        wikiLink += "<a id='wikiLink' href='" + url + "'>" + title + "</a><p id='wikiSummary'>" + summary + "</p></div>";
 
 				//Set back 'Fox Theatre' to original location place value (ie remove '(Atlanta)' suffix)
@@ -356,6 +386,7 @@ function getWikiInformation() {
 		    })
 		    .fail(function(){
 				console.log("An exception occurred accessing Wikipedia");
+    			$('#statusLine').append("<span>Page failed to access Wikipedia Services;&nbsp;&nbsp;</span>");
 			})
 			.always(function(){
 				//console.log("");
@@ -370,8 +401,22 @@ function buildInfoWindowContent(locationName){
 	console.log("buildInfoWindowContent");
 	var markUp = "<div id='contentInfo'>";
 	markUp += locationHash[locationName];
-	markUp += flickrHash[locationName];
-	markUp += wikiHash[locationName];
+	//If hash table does not contain an entry for the given location, then indicate it was not found.
+	if (flickrHash[locationName] === undefined) {
+		markUp += "<div id='flickrDiv'><hr><p id='flickrTagname'>Flickr</p><p>Photo not found</p></div>";
+	}
+	else
+	{
+		markUp += flickrHash[locationName];
+	}
+	//If hash table does not contain an entry for the given location, then indicate it was not found.
+	if (wikiHash[locationName] === undefined) {
+		markUp += "<div id='wikiLink'><hr><p id='wikiTagname'>Wikipedia</p><p>Location not found</p></div>";
+	}
+	else
+	{
+		markUp += wikiHash[locationName];
+	}	
 	markUp += "</div>";
 	return markUp;
 }
